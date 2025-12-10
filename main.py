@@ -1,6 +1,3 @@
-
-## main.py
-```python
 """
 HW05 — Campus Wi-Fi Planner (Max Level Load in a Tree)
 
@@ -18,8 +15,9 @@ class TreeNode:
     """
 
     def __init__(self, value, left=None, right=None):
-        # TODO: store the fields on the instance
-        pass
+        self.value = value
+        self.left = left
+        self.right = right
 
 
 def max_level_sum(root):
@@ -29,20 +27,37 @@ def max_level_sum(root):
 
     For an empty tree (root is None), return (None, 0).
     """
-    # TODO (8 Steps of Coding, minimal prompts):
-    # - Design a BFS (level-order) traversal using a queue.
-    # - Track current level index, sum per level, and the best level so far.
-    # - Handle the empty tree case.
-    raise NotImplementedError("Implement max_level_sum in main.py")
+    if root is None:
+        return (None, 0)
+
+    queue = [root]
+    level = 0
+    best_level = 0
+    best_sum = root.value  # root is level 0
+
+    while queue:
+        next_queue = []
+        current_sum = 0
+
+        for node in queue:
+            current_sum += node.value
+            if node.left:
+                next_queue.append(node.left)
+            if node.right:
+                next_queue.append(node.right)
+
+        # update best if needed
+        if current_sum > best_sum:
+            best_sum = current_sum
+            best_level = level
+
+        queue = next_queue
+        level += 1
+
+    return (best_level, best_sum)
 
 
 if __name__ == "__main__":
-    # Optional manual tree:
-    #       10
-    #      /  \
-    #     5    7
-    #    / \
-    #   4   1
     left = TreeNode(5, TreeNode(4), TreeNode(1))
     right = TreeNode(7)
     root = TreeNode(10, left, right)
